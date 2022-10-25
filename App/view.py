@@ -78,6 +78,10 @@ while True:
         print("Elementos en el arbol: " + str(controller.indexSize(cont)))
         print("Menor Llave: " + str(controller.minKey(cont)))
         print("Mayor Llave: " + str(controller.maxKey(cont)))
+        print("Altura del arbol de Areas: " + str(controller.indexHeightAreas(cont)))
+        print("Elementos en el arbol de Areas: " + str(controller.indexSizeAreas(cont)))
+        print("Menor Llave de Areas: " + str(controller.minKeyAreas(cont)))
+        print("Mayor Llave de Areas: " + str(controller.maxKeyAreas(cont)))
 
         # TODO lab 9, imprimir las propiedades del indice de areas
         # propiedades: altura, elementos y llaves min y max
@@ -99,13 +103,7 @@ while True:
               str(numoffenses))
 
     elif (int(inputs[0]) == 5):
-        print("\nBuscando crimenes en un rango de areas: ")
-        initialArea = input(int)
-        FinalArea = input(int)
-        numoffenses = controller.getCrimesByRangeArea(cont, initialArea,
-                                                        FinalArea)
-        print("Las areas estan numeradas con enteros (1 - 962)")
-        print("Un area desconocida tiene el el numero 9999")
+        
         
         # TODO lab 9, implementar el I/O e invocar las funcions de la opcion 5
         InitialArea = input("Area inicial: ")
