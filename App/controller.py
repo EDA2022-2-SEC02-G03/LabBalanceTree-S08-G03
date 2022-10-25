@@ -109,7 +109,8 @@ def indexHeightAreas(analyzer):
     Altura del indice de areas (arbol)
     """
     # TODO lab 9, completar el llamado de indexHeightAreas()
-    pass
+    
+    return model.indexHeightAreas(analyzer)
 
 
 def indexSizeAreas(analyzer):
@@ -117,7 +118,8 @@ def indexSizeAreas(analyzer):
     Numero de nodos en el arbol por areas
     """
     # TODO lab 9, completar el llamado de indexSizeAreas()
-    pass
+    
+    return model.indexSizeAreas(analyzer)
 
 
 def minKeyAreas(analyzer):
@@ -125,7 +127,8 @@ def minKeyAreas(analyzer):
     La menor llave del arbol por areas
     """
     # TODO lab 9, completar el llamado de minKeyAreas()
-    pass
+    
+    return model.minKeyAreas(analyzer)
 
 
 def maxKeyAreas(analyzer):
@@ -133,7 +136,8 @@ def maxKeyAreas(analyzer):
     La mayor llave del arbol por areas
     """
     # TODO lab 9, completar el llamado de maxKeyAreas()
-    pass
+    
+    return model.maxKeyAreas(analyzer)
 
 
 def getCrimesByRange(analyzer, initialDate, finalDate):
@@ -157,13 +161,14 @@ def getCrimesByRangeCode(analyzer, initialDate,
                                       offensecode)
 
 
-def getCrimesByRangeArea(cont, initialArea, FinalArea):
+def getCrimesByRangeArea(analyzer, initialArea, FinalArea):
     # TODO lab 9, completar el llamado para el req 5 para rangos de area
     """
     Retorna el total de crimenes en un rango de areas
     """
     # recuerde castear los parametros a int
-    pass
+    return model.getCrimesByRangeArea(analyzer, initialArea,
+                                      FinalArea)
 
 
 # Funciones para medir tiempos de ejecucion

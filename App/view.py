@@ -52,6 +52,7 @@ def printMenu():
     print("2- Cargar información de crimenes")
     print("3- Consultar crimenes en un rango de fechas")
     print("4- Consultar crimenes por codigo y fecha")
+    print("5- Consultar crimenes por rango de areas")
     # TODO lab 9, agregar opcion 5 en el menu, consultar por REPORTING_AREA
     print("0- Salir")
     print("*******************************************")
@@ -73,10 +74,10 @@ while True:
         print("\nCargando información de crimenes ....")
         controller.loadData(cont, crimefile)
         print("Crimenes cargados: " + str(controller.crimesSize(cont)))
-        print("Altura del arbol: " + str(controller.indexHeight(cont)))
-        print("Elementos en el arbol: " + str(controller.indexSize(cont)))
-        print("Menor Llave: " + str(controller.minKey(cont)))
-        print("Mayor Llave: " + str(controller.maxKey(cont)))
+        print("Altura del arbol: " + str(controller.indexHeightAreas(cont)))
+        print("Elementos en el arbol: " + str(controller.indexSizeAreas(cont)))
+        print("Menor Llave: " + str(controller.minKeyAreas(cont)))
+        print("Mayor Llave: " + str(controller.maxKeyAreas(cont)))
         # TODO lab 9, imprimir las propiedades del indice de areas
         # propiedades: altura, elementos y llaves min y max
 
@@ -99,8 +100,17 @@ while True:
     elif (int(inputs[0]) == 5):
         # TODO lab 9, implementar el I/O e invocar las funcions de la opcion 5
         print("\nBuscando crimenes en un rango de areas: ")
+        initialArea = input(int)
+        FinalArea = input(int)
+        numoffenses = controller.getCrimesByRangeArea(cont, initialArea,
+                                                        FinalArea)
         print("Las areas estan numeradas con enteros (1 - 962)")
         print("Un area desconocida tiene el el numero 9999")
+        print("Area inicial: " + initialArea)
+        print("Area final: " + FinalArea)
+
+        print("Total de crimenes en el rango de areas: " + numoffenses)
+
 
     else:
         sys.exit(0)
