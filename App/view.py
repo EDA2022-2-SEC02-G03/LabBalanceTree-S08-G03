@@ -100,6 +100,10 @@ while True:
 
     elif (int(inputs[0]) == 5):
         print("\nBuscando crimenes en un rango de areas: ")
+        initialArea = input(int)
+        FinalArea = input(int)
+        numoffenses = controller.getCrimesByRangeArea(cont, initialArea,
+                                                        FinalArea)
         print("Las areas estan numeradas con enteros (1 - 962)")
         print("Un area desconocida tiene el el numero 9999")
         

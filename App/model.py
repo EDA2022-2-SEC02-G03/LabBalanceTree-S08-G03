@@ -69,7 +69,7 @@ def newAnalyzer():
 # Funciones para agregar informacion al catalogo
 
 
-def addCrime(analyzer, crime):
+def addCrime(analyzer, crime): #
     """
     adicionar un crimen a la lista de crimenes y en el arbol
     """
@@ -80,13 +80,24 @@ def addCrime(analyzer, crime):
     return analyzer
 
 
-def updateAreaIndex(map, crime):
+def updateAreaIndex(map, crime):#
     """
     actualiza el indice de areas reportadas con un nuevo crimen
     si el area ya existe en el indice, se adiciona el crimen a la lista
     si el area es nueva, se crea una entrada para el indice y se adiciona
     y si el area son ["", " ", None] se utiliza el valor por defecto 9999
     """
+    occurreddate = crime['OCCURRED_ON_DATE']
+    crimedate = datetime.datetime.strptime(occurreddate, '%Y-%m-%d %H:%M:%S')
+    entry = om.get(map, crimedate.date())
+    if entry is None or " " or "":
+        datentry = 9999
+        om.put(map, crimedate.date(), datentry)
+    else:
+        datentry = me.getValue(entry)
+    addAreaIndex(datentry, crime)
+    return map
+
     # TODO lab 9, implementar actualizacion del indice por areas reportadas
     # revisar si el area es un str vacio ["", " ", None]
     # area desconocida es 9999
@@ -117,19 +128,29 @@ def newAreaEntry(crime):
     Crea una entrada para el indice de areas reportadas
     """
     # TODO lab 9, crear una entrada para el indice de areas reportadas
-    entry = {"areaIndex": None, "lstcrimes": None}
-    entry["areaIndex"] = m.newMap(numelements=30,
-                                     maptype="PROBING",
-                                     comparefunction=compareAreas)
-    entry["lstcrimes"] = lt.newList("SINGLE_LINKED", compareDates)
-    lt.addLast(entry["lstcrimes"], crime)
+    entry = {"lstcrimes": None, }
     return entry
 
+    # TODO lab 9, crear una entrada para el indice de areas reportadas
+    
 
-def addAreaIndex(areaentry, crime):
+
+def addAreaIndex(areaentry, crime):#
     """
     Adiciona un crimen a la lista de crimenes de un area
     """
+    lst = areaentry['lstcrimes']
+    lt.addLast(lst, crime)
+    offenseIndex = areaentry['offenseIndex']
+    offentry = m.get(offenseIndex, crime['OFFENSE_CODE_GROUP'])
+    if (offentry is None):
+        entry = newOffenseEntry(crime['OFFENSE_CODE_GROUP'], crime)
+        lt.addLast(entry['lstoffenses'], crime)
+        m.put(offenseIndex, crime['OFFENSE_CODE_GROUP'], entry)
+    else:
+        entry = me.getValue(offentry)
+        lt.addLast(entry['lstoffenses'], crime)
+    return areaentry
     # TODO lab 9, adicionar crimen a la lista de crimenes de un area
     print(areaentry)
     lst = areaentry["lstcrimes"]
@@ -255,36 +276,40 @@ def maxKey(analyzer):
     return om.maxKey(analyzer["dateIndex"])
 
 
-def indexHeightAreas(analyzer):
+def indexHeightAreas(analyzer): #
     """
     Altura del arbol por areas
     """
-    # lab 9, leer la altura del arbol por areas
-    return om.height(analyzer['REPORTING_AREA'])
+    # TODO lab 9, leer la altura del arbol por areas
+
+    return om.height(analyzer['areaIndex'])
 
 
-def indexSizeAreas(analyzer):
+def indexSizeAreas(analyzer): #
     """
     Numero de elementos en el indice por areas
     """
     # TODO lab 9, leer el numero de elementos en el indice por areas
-    return om.size(analyzer['REPORTING_AREA'])
+    
+    return om.size(analyzer['areaIndex'])
 
 
-def minKeyAreas(analyzer):
+def minKeyAreas(analyzer): #
     """
     Llave mas pequena por areas
     """
     # TODO lab 9, leer la llave mas pequena por areas
-    return om.minKey(analyzer['REPORTING_AREA'])
+    
+    return om.minKey(analyzer['areaIndex'])
 
 
-def maxKeyAreas(analyzer):
+def maxKeyAreas(analyzer): #
     """
     Llave mas grande por areas
     """
     # TODO lab 9, leer la llave mas grande por areas
-    return om.maxKey(analyzer['REPORTING_AREA'])
+    
+    return om.maxKey(analyzer['areaIndex'])
 
 
 def getCrimesByRangeArea(analyzer, initialArea, FinalArea):
@@ -292,8 +317,7 @@ def getCrimesByRangeArea(analyzer, initialArea, FinalArea):
     Retorna el numero de crimenes en un rango de areas
     """
     # TODO lab 9, completar la consulta de crimenes por rango de areas
-
-    lst = om.values(analyzer["dateIndex"], initialArea, FinalArea)
+    lst = om.values(analyzer["areaIndex"], initialArea, FinalArea)
     totalcrimes = 0
     for lstdate in lt.iterator(lst):
         totalcrimes += lt.size(lstdate["lstcrimes"])
